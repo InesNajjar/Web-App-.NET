@@ -1,0 +1,178 @@
+﻿@page
+@model GrowX.Pages.EventTimelineModel
+@{
+    ViewData["Title"] = "EventTimeline";
+}
+<div class="main-panel">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
+        <div class="container-fluid">
+            <div class="navbar-wrapper">
+                <div class="navbar-minimize">
+                    <button id="minimizeSidebar" class="btn btn-just-icon btn-white btn-fab btn-round">
+                        <i class="material-icons text_align-center visible-on-sidebar-regular">more_vert</i>
+                        <i class="material-icons design_bullet-list-67 visible-on-sidebar-mini">view_list</i>
+                    </button>
+                </div>
+                <a class="navbar-brand" href="#">Evénements</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="navbar-toggler-icon icon-bar"></span>
+                <span class="navbar-toggler-icon icon-bar"></span>
+                <span class="navbar-toggler-icon icon-bar"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end">
+                <form class="navbar-form">
+                    <div class="input-group no-border">
+                        <input asp-for="SearchName" type="text" value="" class="form-control" placeholder="Rechercher...">
+                        <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                            <i class="material-icons">search</i>
+                            <div class="ripple-container"></div>
+                        </button>
+                    </div>
+                </form>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="material-icons">dashboard</i>
+                            <p class="d-lg-none d-md-block">
+                                Stats
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">notifications</i>
+
+                            <p class="d-lg-none d-md-block">
+                                Some Actions
+                            </p>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="material-icons">person</i>
+                            <p class="d-lg-none d-md-block">
+                                Account
+                            </p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="header text-center">
+                <h3 class="title">Timeline</h3>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-timeline card-plain">
+                        <div class="card-body">
+                            <ul class="timeline">
+                                @{
+                                    var counter = 1;
+                                }
+
+                                @foreach (var item in Model.EventList)
+                                {
+                                    counter = counter + 1;
+
+                                    if (counter % 2 == 0)
+                                    {
+                                        <li class="timeline-inverted">
+
+
+                                            <div class="timeline-badge info">
+                                                <i class="fa fa-check-circle" id="@Model.getTypeEvent(item.IdEventType.Value)"></i>
+                                            </div>
+
+                                            <div class="timeline-panel">
+                                                <div class="timeline-heading">
+                                                    <span class="badge badge-pill badge-info">@Html.DisplayFor(modelItem => item.Title) | @Model.getTypeEvent(item.IdEventType.Value)</span>
+                                                </div>
+                                                <div class="timeline-body">
+                                                    <p>
+                                                        Organisé par : @Html.DisplayFor(modelItem => item.Organizer)
+                                                    </p><h6 class="text-bold">
+                                                        Le   @{
+                                                            String MyString;
+                                                            MyString = item.DateEvent.Value.ToString("dd-MM-yyyy");
+                                                        }
+                                                        @{Write(MyString);}
+                                                        à   @Html.DisplayFor(modelItem => item.Location)
+                                                    </h6>
+                                                </div>
+                                                <div class="timeline-footer">
+                                                    <div class="dropdown">
+                                                        <a asp-page="/ConsulterEvent" asp-route-id="@item.IdE" class="btn btn-round btn-rose btn-sm pull-right">
+                                                            Consulter
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                    }
+                                    else
+                                    {
+                                        <li class="">
+
+
+                                            <div class="timeline-badge info">
+                                                <i class="fa fa-check-circle" id="@Model.getTypeEvent(item.IdEventType.Value)"></i>
+                                            </div>
+
+                                            <div class="timeline-panel">
+                                                <div class="timeline-heading">
+                                                    <span class="badge badge-pill badge-info">@Html.DisplayFor(modelItem => item.Title) | @Model.getTypeEvent(item.IdEventType.Value)</span>
+                                                </div>
+                                                <div class="timeline-body">
+                                                    <p>
+                                                        Organisé par : @Html.DisplayFor(modelItem => item.Organizer)
+                                                    </p><h6 class="text-bold">
+                                                        Le   @{
+                                                            String MyString;
+                                                            MyString = item.DateEvent.Value.ToString("dd-MM-yyyy");
+                                                        }
+                                                        @{Write(MyString);}
+                                                        à   @Html.DisplayFor(modelItem => item.Location)
+                                                    </h6>
+                                                </div>
+                                                <div class="timeline-footer">
+                                                    <div class="dropdown">
+                                                        <a asp-page="/ConsulterEvent" asp-route-id="@item.IdE" class="btn btn-round btn-rose btn-sm pull-right">
+                                                            Consulter
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                    <script src="~/js/jquery-3.3.1.min.js"></script>
+                    <script>
+                        var result = $("#Project Success").val();
+                        if (result = "New Client") {
+                            document.getElementById("New Client").className = "fa fa-user bg-aqua";
+                            document.getElementById("Birthday").className = "fa fa-birthday-cake bg-yellow";
+                        }
+                        else {
+                            document.className = "fa fa-birthday-cake bg-yellow";
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
